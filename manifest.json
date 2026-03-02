@@ -1,0 +1,30 @@
+{
+  "name": "胎动记",
+  "appid": "__UNI__BABY",
+  "description": "孕期胎动记录应用",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true,
+    "splashscreen": {
+      "alwaysShowBeforeRender": true,
+      "waiting": true,
+      "autoclose": true,
+      "delay": 0
+    }
+  },
+  "h5": {
+    "title": "胎动记",
+    "template": "index.html",
+    "router": {
+      "mode": "hash",
+      "base": "./"
+    },
+    "optimization": {
+      "prefetch": true,
+      "preload": true
+    }
+  },
+  "uni-app-x": {}
+}
