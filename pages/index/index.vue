@@ -23,9 +23,6 @@
         <!-- 今日统计 -->
         <today-summary-card :movements="movementsStore.todayMovements" />
 
-        <!-- 快捷操作 -->
-        <quick-action-view />
-
         <!-- 最近记录 -->
         <div class="recent-activity card" v-if="movementsStore.recentMovements.length > 0">
           <h3 class="section-title">最近记录</h3>
@@ -57,7 +54,6 @@ import { useMovementsStore } from '@/store/movements'
 import { getRelativeString, formatTime as formatTimeUtil, formatDuration as formatDurationUtil } from '@/utils/date'
 import PregnancyInfoCard from '@/components/pregnancy-info-card.vue'
 import TodaySummaryCard from '@/components/today-summary-card.vue'
-import QuickActionView from '@/components/quick-action-view.vue'
 import Icon from '@/components/icon.vue'
 
 const router = useRouter()
