@@ -29,10 +29,17 @@
         <img :src="selectedImagePath" class="preview-image" />
         <button class="remove-btn" @click="selectedImagePath = ''">✕</button>
       </div>
-      <div class="image-picker" v-else @click="chooseImage">
+      <label class="image-picker" v-else>
+        <input
+          ref="fileInput"
+          type="file"
+          accept="image/*"
+          class="hidden-file-input"
+          @change="handleImageSelect"
+        />
         <span class="picker-icon">🖼️</span>
         <span class="picker-text">选择照片</span>
-      </div>
+      </label>
     </div>
 
     <!-- 内容编辑 -->
@@ -59,6 +66,7 @@ const route = useRoute()
 const router = useRouter()
 const diaryStore = useDiaryStore()
 
+const fileInput = ref(null)
 const entryId = ref('')
 const selectedDate = ref(new Date().toISOString().split('T')[0])
 const selectedMood = ref('normal')
@@ -85,22 +93,15 @@ const loadEntry = () => {
   }
 }
 
-const chooseImage = () => {
-  // 创建隐藏的文件输入
-  const input = document.createElement('input')
-  input.type = 'file'
-  input.accept = 'image/*'
-  input.onchange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        selectedImagePath.value = e.target.result
-      }
-      reader.readAsDataURL(file)
+const handleImageSelect = (e) => {
+  const file = e.target.files[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      selectedImagePath.value = e.target.result
     }
+    reader.readAsDataURL(file)
   }
-  input.click()
 }
 
 const saveEntry = () => {
@@ -204,6 +205,14 @@ const saveEntry = () => {
   background-color: rgba(233, 30, 99, 0.1);
   border-radius: 12px;
   cursor: pointer;
+}
+
+.hidden-file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
 }
 
 .picker-icon {
