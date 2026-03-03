@@ -3,7 +3,7 @@
     <h2 class="page-title">日记</h2>
 
     <!-- 空状态 -->
-    <div class="empty-state" v-if="diaryStore.entries.length === 0">
+    <div class="empty-state" v-if="entries.length === 0">
       <span class="empty-icon">📖</span>
       <span class="empty-title">还没有日记</span>
       <span class="empty-subtitle">记录您的孕期心情和美好时刻</span>
@@ -12,10 +12,10 @@
 
     <!-- 日记列表 -->
     <div class="entry-list" v-else>
-      <div v-for="(entries, date) in groupedEntries" :key="date" class="date-group">
+      <div v-for="(dayEntries, date) in groupedEntries" :key="date" class="date-group">
         <h3 class="group-header">{{ formatGroupHeader(date) }}</h3>
         <div class="entries">
-          <div v-for="entry in entries" :key="entry.id" class="entry-item" @click="goToDetail(entry.id)">
+          <div v-for="entry in dayEntries" :key="entry.id" class="entry-item" @click="goToDetail(entry.id)">
             <div class="mood-indicator" :style="{ backgroundColor: getMoodColor(entry.mood) }">
               {{ getMoodIcon(entry.mood) }}
             </div>
@@ -35,21 +35,29 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useDiaryStore } from '@/store/diary'
 import { isToday, isYesterday, formatTime as formatTimeUtil, startOfDay } from '@/utils/date'
 
 const router = useRouter()
 const diaryStore = useDiaryStore()
+const { entries } = storeToRefs(diaryStore)
 
+// 组件挂载时加载
 onMounted(() => {
+  diaryStore.loadEntries()
+})
+
+// 组件激活时重新加载（支持 keep-alive）
+onActivated(() => {
   diaryStore.loadEntries()
 })
 
 const groupedEntries = computed(() => {
   const groups = {}
-  const sorted = [...diaryStore.entries].sort((a, b) => new Date(b.date) - new Date(a.date))
+  const sorted = [...entries.value].sort((a, b) => new Date(b.date) - new Date(a.date))
 
   sorted.forEach(entry => {
     const dateKey = startOfDay(entry.date).toISOString()
