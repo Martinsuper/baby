@@ -4,7 +4,7 @@
 
     <!-- 记录区域 -->
     <div class="record-area">
-      <timer-mode @recorded="onRecorded" />
+      <manual-record @recorded="onRecorded" />
     </div>
 
     <!-- 今日统计 -->
@@ -41,7 +41,7 @@
 import { computed, onMounted } from 'vue'
 import { useMovementsStore } from '@/store/movements'
 import { formatTimeWithSeconds } from '@/utils/date'
-import TimerMode from '@/components/timer-mode.vue'
+import ManualRecord from '@/components/manual-record.vue'
 
 const movementsStore = useMovementsStore()
 
