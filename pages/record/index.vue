@@ -25,17 +25,45 @@
       <span class="badge-count">{{ movementsStore.todayCount }}</span>
       <span class="badge-unit">次</span>
     </div>
+
+    <!-- 今日记录列表 -->
+    <div class="today-records" v-if="movementsStore.todayCount > 0">
+      <div class="records-header">
+        <span class="records-title">今日记录</span>
+      </div>
+      <div class="records-list">
+        <div
+          class="record-item"
+          v-for="movement in sortedTodayMovements"
+          :key="movement.id"
+        >
+          <span class="record-time">{{ formatTimeWithSeconds(movement.timestamp) }}</span>
+          <button class="delete-btn" @click="deleteMovement(movement.id)">删除</button>
+        </div>
+      </div>
+    </div>
+    <div class="empty-records" v-else>
+      <span class="empty-text">暂无记录</span>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useMovementsStore } from '@/store/movements'
+import { formatTimeWithSeconds } from '@/utils/date'
 import SingleClickMode from '@/components/single-click-mode.vue'
 import TimerMode from '@/components/timer-mode.vue'
 
 const movementsStore = useMovementsStore()
 const recordMode = ref('singleClick')
+
+// 今日记录按时间倒序排列
+const sortedTodayMovements = computed(() => {
+  return [...movementsStore.todayMovements].sort((a, b) => {
+    return new Date(b.timestamp) - new Date(a.timestamp)
+  })
+})
 
 onMounted(() => {
   movementsStore.loadMovements()
@@ -43,6 +71,10 @@ onMounted(() => {
 
 const onRecorded = () => {
   // 记录后的回调
+}
+
+const deleteMovement = (id) => {
+  movementsStore.removeMovement(id)
 }
 </script>
 

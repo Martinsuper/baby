@@ -26,6 +26,19 @@ export function formatTime(date) {
 }
 
 /**
+ * 格式化时间（含秒）
+ * @param {Date|string} date
+ * @returns {string}
+ */
+export function formatTimeWithSeconds(date) {
+  const d = new Date(date)
+  const hours = d.getHours().toString().padStart(2, '0')
+  const minutes = d.getMinutes().toString().padStart(2, '0')
+  const seconds = d.getSeconds().toString().padStart(2, '0')
+  return `${hours}:${minutes}:${seconds}`
+}
+
+/**
  * 格式化日期时间
  * @param {Date|string} date
  * @returns {string}
@@ -182,6 +195,7 @@ export function formatDuration(seconds) {
 export default {
   formatDate,
   formatTime,
+  formatTimeWithSeconds,
   formatDateTime,
   getHour,
   getMinute,
