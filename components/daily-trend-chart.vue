@@ -97,6 +97,7 @@ const formatDay = (dateStr) => {
 }
 
 .bar-fill {
+  height: 100%;
   background-color: var(--primary);
   border-radius: 4px 4px 0 0;
   min-height: 4px;
