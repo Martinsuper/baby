@@ -21,19 +21,19 @@ const actions = [
   {
     icon: '👆',
     label: '记录胎动',
-    color: '#0891B2',
+    color: '#E91E63',
     page: '/record'
   },
   {
     icon: '📖',
     label: '写日记',
-    color: '#06B6D4',
+    color: '#EC407A',
     page: '/diary/editor'
   },
   {
     icon: '📊',
     label: '查看统计',
-    color: '#10B981',
+    color: '#81C784',
     page: '/statistics'
   }
 ]

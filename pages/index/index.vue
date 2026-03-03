@@ -98,7 +98,7 @@ const formatDuration = (seconds) => formatDurationUtil(seconds)
 }
 
 .container {
-  padding: 0 16px 100px;
+  padding: 0 16px 16px;
 }
 
 .empty-state-card {
@@ -158,7 +158,7 @@ const formatDuration = (seconds) => formatDurationUtil(seconds)
   align-items: center;
   gap: 12px;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(103, 232, 249, 0.3);
+  border-bottom: 1px solid rgba(252, 228, 236, 0.5);
 }
 
 .activity-item:last-child {
@@ -194,7 +194,7 @@ const formatDuration = (seconds) => formatDurationUtil(seconds)
 }
 
 .activity-duration {
-  background-color: rgba(103, 232, 249, 0.3);
+  background-color: rgba(252, 228, 236, 0.5);
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 12px;

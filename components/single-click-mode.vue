@@ -1,23 +1,23 @@
 <template>
-  <view class="single-click-mode">
-    <text class="hint">点击按钮记录一次胎动</text>
+  <div class="single-click-mode">
+    <span class="hint">点击按钮记录一次胎动</span>
 
-    <view class="button-container">
+    <div class="button-container">
       <!-- 外圈动画 -->
-      <view class="pulse-ring" :class="{ animate: isAnimating }"></view>
+      <div class="pulse-ring" :class="{ animate: isAnimating }"></div>
 
       <!-- 主按钮 -->
       <button class="main-button" :class="{ pressed: isPressed }" @click="recordMovement">
         <Icon name="baby" :size="44" color="white" />
       </button>
-    </view>
+    </div>
 
     <!-- 确认反馈 -->
-    <view class="confirmation" v-if="showConfirmation">
+    <div class="confirmation" v-if="showConfirmation">
       <Icon name="check" :size="16" :color="'var(--success)'" />
-      <text class="confirmation-text">已记录</text>
-    </view>
-  </view>
+      <span class="confirmation-text">已记录</span>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -85,7 +85,7 @@ const recordMovement = () => {
   width: 170px;
   height: 170px;
   border-radius: 50%;
-  border: 3px solid rgba(8, 145, 178, 0.2);
+  border: 3px solid rgba(233, 30, 99, 0.2);
   pointer-events: none;
 }
 

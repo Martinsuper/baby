@@ -61,31 +61,31 @@ onMounted(() => {
 }
 
 html, body {
-  background-color: #F0FDFA;
+  background-color: #FDF2F4;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 #app {
   min-height: 100vh;
-  background-color: #F0FDFA;
+  background-color: #FDF2F4;
 }
 
 /* 主题变量 */
 :root {
-  --primary: #0891B2;
-  --primary-light: #22D3EE;
-  --primary-dark: #0E7490;
-  --secondary: #67E8F9;
-  --accent: #06B6D4;
-  --background: #F0FDFA;
+  --primary: #E91E63;
+  --primary-light: #F8BBD9;
+  --primary-dark: #C2185B;
+  --secondary: #FCE4EC;
+  --accent: #EC407A;
+  --background: #FDF2F4;
   --card: #FFFFFF;
-  --card-secondary: #ECFEFF;
-  --text-primary: #164E63;
-  --text-secondary: #0E7490;
-  --text-tertiary: #67E8F9;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
+  --card-secondary: #FCE4EC;
+  --text-primary: #4A1942;
+  --text-secondary: #8E5A7B;
+  --text-tertiary: #CE93D8;
+  --success: #81C784;
+  --warning: #FFB74D;
+  --error: #E57373;
 }
 
 .app {
@@ -96,7 +96,7 @@ html, body {
 
 .content {
   flex: 1;
-  padding-bottom: 60px;
+  padding-bottom: 72px;
 }
 
 /* Tab Bar */
@@ -120,12 +120,12 @@ html, body {
   justify-content: center;
   gap: 4px;
   text-decoration: none;
-  color: #67E8F9;
+  color: #CE93D8;
   transition: color 0.2s;
 }
 
 .tab-item.active {
-  color: #0891B2;
+  color: #E91E63;
 }
 
 .tab-item .icon {

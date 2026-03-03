@@ -1,28 +1,28 @@
 <template>
-  <view class="today-summary-card card">
-    <view class="header">
-      <text class="title">今日胎动</text>
-      <text class="date">{{ todayDate }}</text>
-    </view>
+  <div class="today-summary-card card">
+    <div class="header">
+      <span class="title">今日胎动</span>
+      <span class="date">{{ todayDate }}</span>
+    </div>
 
-    <view class="content">
-      <view class="count-section">
-        <text class="count">{{ movements.length }}</text>
-        <text class="label">次胎动</text>
-      </view>
+    <div class="content">
+      <div class="count-section">
+        <span class="count">{{ movements.length }}</span>
+        <span class="label">次胎动</span>
+      </div>
 
-      <view class="last-section" v-if="lastMovement">
-        <view class="last-time">
-          <text class="icon">🕐</text>
-          <text class="time">{{ formatTime(lastMovement.timestamp) }}</text>
-        </view>
-        <text class="last-label">最近记录</text>
-      </view>
-      <view class="last-section" v-else>
-        <text class="no-record">暂无记录</text>
-      </view>
-    </view>
-  </view>
+      <div class="last-section" v-if="lastMovement">
+        <div class="last-time">
+          <span class="icon">🕐</span>
+          <span class="time">{{ formatTime(lastMovement.timestamp) }}</span>
+        </div>
+        <span class="last-label">最近记录</span>
+      </div>
+      <div class="last-section" v-else>
+        <span class="no-record">暂无记录</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>

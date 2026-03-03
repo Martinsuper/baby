@@ -201,7 +201,7 @@ const saveEntry = () => {
   justify-content: center;
   gap: 8px;
   padding: 20px;
-  background-color: rgba(8, 145, 178, 0.1);
+  background-color: rgba(233, 30, 99, 0.1);
   border-radius: 12px;
   cursor: pointer;
 }

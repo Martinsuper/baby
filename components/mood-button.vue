@@ -35,7 +35,7 @@ defineEmits(['select'])
 }
 
 .mood-button.selected {
-  background-color: rgba(8, 145, 178, 0.1);
+  background-color: rgba(233, 30, 99, 0.1);
   border-color: var(--primary);
 }
 

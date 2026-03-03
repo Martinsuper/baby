@@ -59,12 +59,12 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "胎动记",
-    "navigationBarBackgroundColor": "#F0FDFA",
-    "backgroundColor": "#F0FDFA"
+    "navigationBarBackgroundColor": "#FDF2F4",
+    "backgroundColor": "#FDF2F4"
   },
   "tabBar": {
-    "color": "#67E8F9",
-    "selectedColor": "#0891B2",
+    "color": "#CE93D8",
+    "selectedColor": "#E91E63",
     "borderStyle": "white",
     "backgroundColor": "#FFFFFF",
     "list": [

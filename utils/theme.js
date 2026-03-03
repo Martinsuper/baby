@@ -1,42 +1,42 @@
-// 主题颜色定义 - 迁移自 Color+Theme.swift
+// 主题颜色定义 - 玫瑰粉色女性化主题
 
 export const themeColors = {
-  // 主色调 (Cyan Theme - 清新干净)
-  primary: '#0891B2',
-  primaryLight: '#22D3EE',
-  primaryDark: '#0E7490',
+  // 主色调 (Rose Pink Theme - 温柔女性化)
+  primary: '#E91E63',
+  primaryLight: '#F8BBD9',
+  primaryDark: '#C2185B',
 
   // 次要颜色
-  secondary: '#67E8F9',
-  accent: '#06B6D4',
+  secondary: '#FCE4EC',
+  accent: '#EC407A',
 
-  // 背景颜色 (柔和干净)
-  background: '#F0FDFA',
+  // 背景颜色 (柔和温暖)
+  background: '#FDF2F4',
   card: '#FFFFFF',
-  cardSecondary: '#ECFEFF',
+  cardSecondary: '#FCE4EC',
 
   // 文字颜色 (高对比度)
-  textPrimary: '#164E63',
-  textSecondary: '#0E7490',
-  textTertiary: '#67E8F9',
+  textPrimary: '#4A1942',
+  textSecondary: '#8E5A7B',
+  textTertiary: '#CE93D8',
 
   // 状态颜色
-  success: '#10B981',
-  warning: '#F59E0B',
-  error: '#EF4444',
+  success: '#81C784',
+  warning: '#FFB74D',
+  error: '#E57373',
 
-  // 心情颜色
-  moodGreat: '#10B981',
-  moodGood: '#34D399',
-  moodNormal: '#FBBF24',
-  moodBad: '#FB923C',
-  moodTerrible: '#F87171'
+  // 心情颜色 (柔和版)
+  moodGreat: '#81C784',
+  moodGood: '#A5D6A7',
+  moodNormal: '#FFE082',
+  moodBad: '#FFAB91',
+  moodTerrible: '#EF9A9A'
 }
 
 // 渐变配置
 export const gradients = {
   primary: {
-    colors: ['#0891B2', '#22D3EE'],
+    colors: ['#E91E63', '#F8BBD9'],
     direction: 'to right'
   }
 }

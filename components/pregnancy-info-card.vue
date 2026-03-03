@@ -1,46 +1,46 @@
 <template>
-  <view class="pregnancy-info-card card" v-if="profile">
+  <div class="pregnancy-info-card card" v-if="profile">
     <!-- 头部信息 -->
-    <view class="header">
-      <view class="info">
-        <text class="title">孕{{ pregnancyProgress.weeks }}周{{ pregnancyProgress.days }}天</text>
-        <text class="subtitle">距离预产期还有 {{ daysRemaining }} 天</text>
-      </view>
-      <view class="baby-name" v-if="profile.babyName">
-        <text>{{ profile.babyName }}</text>
-      </view>
-    </view>
+    <div class="header">
+      <div class="info">
+        <span class="title">孕{{ pregnancyProgress.weeks }}周{{ pregnancyProgress.days }}天</span>
+        <span class="subtitle">距离预产期还有 {{ daysRemaining }} 天</span>
+      </div>
+      <div class="baby-name" v-if="profile.babyName">
+        <span>{{ profile.babyName }}</span>
+      </div>
+    </div>
 
     <!-- 进度条 -->
-    <view class="progress-bar">
-      <view class="progress-track">
-        <view class="progress-fill" :style="{ width: progressPercentage * 100 + '%' }"></view>
-      </view>
-    </view>
+    <div class="progress-bar">
+      <div class="progress-track">
+        <div class="progress-fill" :style="{ width: progressPercentage * 100 + '%' }"></div>
+      </div>
+    </div>
 
     <!-- 孕期指示器 -->
-    <view class="trimester-indicator">
-      <view v-for="t in 3" :key="t" class="trimester-item" :class="{ active: t <= trimester }">
-        <view class="trimester-dot" :class="{ filled: t <= trimester }"></view>
-        <text class="trimester-label">孕{{ t }}</text>
-      </view>
-    </view>
+    <div class="trimester-indicator">
+      <div v-for="t in 3" :key="t" class="trimester-item" :class="{ active: t <= trimester }">
+        <div class="trimester-dot" :class="{ filled: t <= trimester }"></div>
+        <span class="trimester-label">孕{{ t }}</span>
+      </div>
+    </div>
 
     <!-- 宝宝发育信息 -->
-    <view class="development-info" v-if="developmentInfo">
-      <view class="development-row">
-        <text class="development-label">宝宝大小</text>
-        <text class="development-value">{{ developmentInfo.size }}</text>
-      </view>
-      <text class="development-description">{{ developmentInfo.description }}</text>
-      <view class="milestones" v-if="developmentInfo.milestones.length">
-        <view v-for="(milestone, index) in developmentInfo.milestones" :key="index" class="milestone-item">
-          <text class="milestone-icon">✓</text>
-          <text class="milestone-text">{{ milestone }}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+    <div class="development-info" v-if="developmentInfo">
+      <div class="development-row">
+        <span class="development-label">宝宝大小</span>
+        <span class="development-value">{{ developmentInfo.size }}</span>
+      </div>
+      <span class="development-description">{{ developmentInfo.description }}</span>
+      <div class="milestones" v-if="developmentInfo.milestones.length">
+        <div v-for="(milestone, index) in developmentInfo.milestones" :key="index" class="milestone-item">
+          <span class="milestone-icon">✓</span>
+          <span class="milestone-text">{{ milestone }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -89,7 +89,7 @@ const developmentInfo = computed(() => pregnancyStore.developmentInfo)
 }
 
 .baby-name {
-  background-color: rgba(8, 145, 178, 0.1);
+  background-color: rgba(233, 30, 99, 0.1);
   padding: 6px 14px;
   border-radius: 20px;
 }
@@ -106,7 +106,7 @@ const developmentInfo = computed(() => pregnancyStore.developmentInfo)
 
 .progress-track {
   height: 8px;
-  background-color: rgba(103, 232, 249, 0.3);
+  background-color: rgba(252, 228, 236, 0.5);
   border-radius: 4px;
   overflow: hidden;
 }

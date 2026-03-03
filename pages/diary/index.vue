@@ -78,13 +78,13 @@ const getMoodIcon = (mood) => {
 
 const getMoodColor = (mood) => {
   const colors = {
-    great: 'rgba(16, 185, 129, 0.15)',
-    good: 'rgba(52, 211, 153, 0.15)',
-    normal: 'rgba(251, 191, 36, 0.15)',
-    bad: 'rgba(251, 146, 60, 0.15)',
-    terrible: 'rgba(248, 113, 113, 0.15)'
+    great: 'rgba(129, 199, 132, 0.15)',
+    good: 'rgba(165, 214, 167, 0.15)',
+    normal: 'rgba(255, 224, 130, 0.15)',
+    bad: 'rgba(255, 171, 145, 0.15)',
+    terrible: 'rgba(239, 154, 154, 0.15)'
   }
-  return colors[mood] || 'rgba(251, 191, 36, 0.15)'
+  return colors[mood] || 'rgba(255, 224, 130, 0.15)'
 }
 
 const goToEditor = () => {
@@ -169,7 +169,7 @@ const goToDetail = (id) => {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(103, 232, 249, 0.2);
+  border-bottom: 1px solid rgba(252, 228, 236, 0.5);
   cursor: pointer;
 }
 
@@ -214,7 +214,7 @@ const goToDetail = (id) => {
 .add-btn {
   position: fixed;
   right: 20px;
-  bottom: 80px;
+  bottom: 76px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -223,6 +223,7 @@ const goToDetail = (id) => {
   font-size: 28px;
   color: white;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+  z-index: 100;
 }
 </style>

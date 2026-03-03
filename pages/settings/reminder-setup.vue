@@ -164,7 +164,7 @@ const addNewTime = () => {
   display: flex;
   align-items: center;
   padding: 14px 16px;
-  border-bottom: 1px solid rgba(103, 232, 249, 0.2);
+  border-bottom: 1px solid rgba(252, 228, 236, 0.5);
   gap: 12px;
 }
 
@@ -182,7 +182,7 @@ const addNewTime = () => {
 .time-input {
   padding: 8px 12px;
   border: none;
-  background-color: rgba(8, 145, 178, 0.1);
+  background-color: rgba(233, 30, 99, 0.1);
   border-radius: 6px;
   font-size: 14px;
   color: var(--primary);

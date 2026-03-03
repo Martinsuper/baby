@@ -64,13 +64,13 @@ const getMoodLabel = (mood) => {
 
 const getMoodColor = (mood) => {
   const colors = {
-    great: '#10B981',
-    good: '#34D399',
-    normal: '#FBBF24',
-    bad: '#FB923C',
-    terrible: '#F87171'
+    great: '#81C784',
+    good: '#A5D6A7',
+    normal: '#FFE082',
+    bad: '#FFAB91',
+    terrible: '#EF9A9A'
   }
-  return colors[mood] || '#FBBF24'
+  return colors[mood] || '#FFE082'
 }
 
 const goToEditor = () => {
@@ -129,7 +129,7 @@ const confirmDelete = () => {
 
 .divider {
   height: 1px;
-  background-color: rgba(103, 232, 249, 0.3);
+  background-color: rgba(252, 228, 236, 0.5);
   margin: 16px 0;
 }
 

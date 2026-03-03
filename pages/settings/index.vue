@@ -131,7 +131,7 @@ const openPrivacy = () => {
   display: flex;
   align-items: center;
   padding: 14px 16px;
-  border-bottom: 1px solid rgba(103, 232, 249, 0.2);
+  border-bottom: 1px solid rgba(252, 228, 236, 0.5);
   cursor: pointer;
 }
 

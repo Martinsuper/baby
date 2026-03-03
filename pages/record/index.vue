@@ -64,7 +64,7 @@ const onRecorded = () => {
 
 .mode-picker {
   display: flex;
-  background-color: rgba(103, 232, 249, 0.2);
+  background-color: rgba(252, 228, 236, 0.5);
   border-radius: 8px;
   padding: 4px;
   margin-bottom: 24px;

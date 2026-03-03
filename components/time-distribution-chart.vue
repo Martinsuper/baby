@@ -1,24 +1,24 @@
 <template>
-  <view class="chart-card card">
-    <text class="title">时段分布</text>
+  <div class="chart-card card">
+    <span class="title">时段分布</span>
 
-    <view class="chart-container" v-if="data.length > 0">
-      <view class="time-bars">
-        <view v-for="(item, index) in data" :key="index" class="time-row">
-          <text class="period-label">{{ item.period.label }}</text>
-          <view class="bar-container">
-            <view class="bar-fill" :style="{ width: getBarWidth(item.count) + '%' }"></view>
-          </view>
-          <text class="count">{{ item.count }}</text>
-        </view>
-      </view>
-    </view>
+    <div class="chart-container" v-if="data.length > 0">
+      <div class="time-bars">
+        <div v-for="(item, index) in data" :key="index" class="time-row">
+          <span class="period-label">{{ item.period.label }}</span>
+          <div class="bar-container">
+            <div class="bar-fill" :style="{ width: getBarWidth(item.count) + '%' }"></div>
+          </div>
+          <span class="count">{{ item.count }}</span>
+        </div>
+      </div>
+    </div>
 
-    <view class="empty-state" v-else>
-      <text class="empty-icon">🕐</text>
-      <text class="empty-text">暂无数据</text>
-    </view>
-  </view>
+    <div class="empty-state" v-else>
+      <span class="empty-icon">🕐</span>
+      <span class="empty-text">暂无数据</span>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -80,7 +80,7 @@ const getBarWidth = (count) => {
 .bar-container {
   flex: 1;
   height: 20px;
-  background-color: rgba(103, 232, 249, 0.2);
+  background-color: rgba(252, 228, 236, 0.5);
   border-radius: 4px;
   overflow: hidden;
 }
