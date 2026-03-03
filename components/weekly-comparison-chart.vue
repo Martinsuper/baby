@@ -1,39 +1,39 @@
 <template>
-  <view class="chart-card card">
-    <text class="title">周对比</text>
+  <div class="chart-card card">
+    <span class="title">周对比</span>
 
-    <view class="chart-container" v-if="data.length > 0">
-      <view class="week-bars">
-        <view v-for="(item, index) in data" :key="index" class="week-column">
-          <view class="bar-group">
-            <view class="bar-wrapper">
-              <view class="bar total" :style="{ height: getBarHeight(item.totalCount) + '%' }"></view>
-            </view>
-            <view class="bar-wrapper">
-              <view class="bar avg" :style="{ height: getBarHeight(item.avgPerDay) + '%' }"></view>
-            </view>
-          </view>
-          <text class="week-label">{{ item.weekLabel }}</text>
-        </view>
-      </view>
+    <div class="chart-container" v-if="data.length > 0">
+      <div class="week-bars">
+        <div v-for="(item, index) in data" :key="index" class="week-column">
+          <div class="bar-group">
+            <div class="bar-wrapper">
+              <div class="bar total" :style="{ height: getBarHeight(item.totalCount) + '%' }"></div>
+            </div>
+            <div class="bar-wrapper">
+              <div class="bar avg" :style="{ height: getBarHeight(item.avgPerDay) + '%' }"></div>
+            </div>
+          </div>
+          <span class="week-label">{{ item.weekLabel }}</span>
+        </div>
+      </div>
 
-      <view class="legend">
-        <view class="legend-item">
-          <view class="legend-color total"></view>
-          <text class="legend-text">总次数</text>
-        </view>
-        <view class="legend-item">
-          <view class="legend-color avg"></view>
-          <text class="legend-text">日均</text>
-        </view>
-      </view>
-    </view>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color total"></div>
+          <span class="legend-text">总次数</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color avg"></div>
+          <span class="legend-text">日均</span>
+        </div>
+      </div>
+    </div>
 
-    <view class="empty-state" v-else>
-      <text class="empty-icon">📅</text>
-      <text class="empty-text">暂无数据</text>
-    </view>
-  </view>
+    <div class="empty-state" v-else>
+      <span class="empty-icon">📅</span>
+      <span class="empty-text">暂无数据</span>
+    </div>
+  </div>
 </template>
 
 <script setup>

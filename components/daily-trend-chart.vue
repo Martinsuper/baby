@@ -1,26 +1,26 @@
 <template>
-  <view class="chart-card card">
-    <text class="title">每日趋势</text>
+  <div class="chart-card card">
+    <span class="title">每日趋势</span>
 
-    <view class="chart-container" v-if="data.length > 0">
+    <div class="chart-container" v-if="data.length > 0">
       <!-- 简化的折线图展示 -->
-      <view class="simple-chart">
-        <view class="chart-bars">
-          <view v-for="(item, index) in data" :key="index" class="bar-column">
-            <view class="bar" :style="{ height: getBarHeight(item.count) + '%' }">
-              <view class="bar-fill"></view>
-            </view>
-            <text class="bar-label">{{ formatDay(item.date) }}</text>
-          </view>
-        </view>
-      </view>
-    </view>
+      <div class="simple-chart">
+        <div class="chart-bars">
+          <div v-for="(item, index) in data" :key="index" class="bar-column">
+            <div class="bar" :style="{ height: getBarHeight(item.count) + '%' }">
+              <div class="bar-fill"></div>
+            </div>
+            <span class="bar-label">{{ formatDay(item.date) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <view class="empty-state" v-else>
-      <text class="empty-icon">📊</text>
-      <text class="empty-text">暂无数据</text>
-    </view>
-  </view>
+    <div class="empty-state" v-else>
+      <span class="empty-icon">📊</span>
+      <span class="empty-text">暂无数据</span>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -63,7 +63,7 @@ const formatDay = (dateStr) => {
 }
 
 .chart-container {
-  height: 200px;
+  min-height: 200px;
 }
 
 .simple-chart {
