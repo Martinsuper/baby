@@ -155,4 +155,88 @@ const deleteMovement = (id) => {
   font-size: 14px;
   color: var(--text-secondary);
 }
+
+/* 今日记录列表 */
+.today-records {
+  margin-top: 16px;
+  background-color: var(--card);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.records-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(233, 30, 99, 0.1);
+}
+
+.records-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(252, 228, 236, 0.3) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.record-item:active {
+  transform: scale(0.98);
+}
+
+.record-time {
+  font-size: 18px;
+  font-weight: 500;
+  font-family: 'SF Pro Rounded', -apple-system, monospace;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.delete-btn {
+  font-size: 12px;
+  color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.delete-btn:active {
+  background-color: rgba(244, 67, 54, 0.2);
+}
+
+.empty-records {
+  margin-top: 16px;
+  padding: 32px;
+  text-align: center;
+  background-color: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.empty-text {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
 </style>
