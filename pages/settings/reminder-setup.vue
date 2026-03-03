@@ -31,7 +31,7 @@
     <!-- 说明 -->
     <div class="section">
       <div class="info-card">
-        <span class="info-icon">ℹ️</span>
+        <Icon name="info" :size="20" color="var(--primary)" />
         <div class="info-content">
           <span class="info-title">提醒说明</span>
           <span class="info-text">系统会在设定的时间提醒您记录宝宝的胎动情况，帮助您更好地监测宝宝的健康状态。</span>
@@ -44,6 +44,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRemindersStore } from '@/store/reminders'
+import Icon from '@/components/icon.vue'
 
 const remindersStore = useRemindersStore()
 
@@ -224,10 +225,6 @@ const addNewTime = () => {
   border-radius: 12px;
   gap: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.info-icon {
-  font-size: 20px;
 }
 
 .info-content {

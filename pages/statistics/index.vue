@@ -15,19 +15,25 @@
     <!-- 汇总卡片 -->
     <div class="summary-cards">
       <div class="summary-card">
-        <div class="summary-icon" style="background-color: var(--primary)">👆</div>
+        <div class="summary-icon" style="background-color: var(--primary)">
+          <Icon name="pointer" :size="16" color="white" />
+        </div>
         <span class="summary-value">{{ filteredMovements.length }}</span>
         <span class="summary-label">总次数</span>
       </div>
 
       <div class="summary-card">
-        <div class="summary-icon" style="background-color: var(--accent)">📅</div>
+        <div class="summary-icon" style="background-color: var(--accent)">
+          <Icon name="calendar" :size="16" color="white" />
+        </div>
         <span class="summary-value">{{ averagePerDay }}</span>
         <span class="summary-label">日均</span>
       </div>
 
       <div class="summary-card">
-        <div class="summary-icon" style="background-color: var(--success)">⬆️</div>
+        <div class="summary-icon" style="background-color: var(--success)">
+          <Icon name="trending" :size="16" color="white" />
+        </div>
         <span class="summary-value">{{ maxDailyCount }}</span>
         <span class="summary-label">最高</span>
       </div>
@@ -51,6 +57,7 @@ import { getTimePeriod } from '@/utils/date'
 import DailyTrendChart from '@/components/daily-trend-chart.vue'
 import TimeDistributionChart from '@/components/time-distribution-chart.vue'
 import WeeklyComparisonChart from '@/components/weekly-comparison-chart.vue'
+import Icon from '@/components/icon.vue'
 
 const movementsStore = useMovementsStore()
 const selectedPeriod = ref('week')
@@ -227,7 +234,6 @@ const weeklyData = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
   color: white;
 }
 

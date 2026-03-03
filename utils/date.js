@@ -138,15 +138,15 @@ export function isThisWeek(date) {
 export function getTimePeriod(date) {
   const hour = getHour(date)
   if (hour >= 6 && hour < 12) {
-    return { value: 'morning', label: '早上', icon: '🌅' }
+    return { value: 'morning', label: '早上', icon: 'sunrise' }
   } else if (hour >= 12 && hour < 14) {
-    return { value: 'noon', label: '中午', icon: '☀️' }
+    return { value: 'noon', label: '中午', icon: 'sun' }
   } else if (hour >= 14 && hour < 18) {
-    return { value: 'afternoon', label: '下午', icon: '🌤️' }
+    return { value: 'afternoon', label: '下午', icon: 'cloud-sun' }
   } else if (hour >= 18 && hour < 22) {
-    return { value: 'evening', label: '晚上', icon: '🌇' }
+    return { value: 'evening', label: '晚上', icon: 'sunset' }
   } else {
-    return { value: 'night', label: '深夜', icon: '🌙' }
+    return { value: 'night', label: '深夜', icon: 'moon' }
   }
 }
 

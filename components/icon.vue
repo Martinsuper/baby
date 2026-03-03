@@ -17,7 +17,18 @@ import {
   Smile,
   Meh,
   Frown,
-  Heart
+  Heart,
+  Timer,
+  Camera,
+  Info,
+  Bell,
+  Sunrise,
+  Sun,
+  CloudSun,
+  Sunset,
+  Moon,
+  Clock,
+  Pointer
 } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -57,7 +68,18 @@ const iconMap = {
   smile: Smile,
   meh: Meh,
   frown: Frown,
-  heart: Heart
+  heart: Heart,
+  timer: Timer,
+  camera: Camera,
+  info: Info,
+  bell: Bell,
+  sunrise: Sunrise,
+  sun: Sun,
+  'cloud-sun': CloudSun,
+  sunset: Sunset,
+  moon: Moon,
+  clock: Clock,
+  pointer: Pointer
 }
 </script>
 

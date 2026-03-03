@@ -9,7 +9,7 @@
 
     <!-- 今日统计 -->
     <div class="today-badge">
-      <span class="badge-icon">👆</span>
+      <Icon name="pointer" :size="16" color="var(--primary)" />
       <span class="badge-text">今日已记录</span>
       <span class="badge-count">{{ movementsStore.todayCount }}</span>
       <span class="badge-unit">次</span>
@@ -42,6 +42,7 @@ import { computed, onMounted } from 'vue'
 import { useMovementsStore } from '@/store/movements'
 import { formatTimeWithSeconds } from '@/utils/date'
 import ManualRecord from '@/components/manual-record.vue'
+import Icon from '@/components/icon.vue'
 
 const movementsStore = useMovementsStore()
 

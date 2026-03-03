@@ -7,7 +7,7 @@
       <div class="avatar" @click="chooseAvatar">
         <img v-if="avatarPath" :src="avatarPath" />
         <div class="avatar-placeholder" v-else>
-          <span class="camera-icon">📷</span>
+          <Icon name="camera" :size="24" color="white" />
           <span class="avatar-hint">添加头像</span>
         </div>
       </div>
@@ -50,6 +50,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePregnancyStore } from '@/store/pregnancy'
 import { calculatePregnancyWeeks, calculateDaysRemaining } from '@/utils/pregnancy'
+import Icon from '@/components/icon.vue'
 
 const router = useRouter()
 const pregnancyStore = usePregnancyStore()
@@ -163,10 +164,6 @@ const saveProfile = () => {
   align-items: center;
   justify-content: center;
   gap: 6px;
-}
-
-.camera-icon {
-  font-size: 24px;
 }
 
 .avatar-hint {

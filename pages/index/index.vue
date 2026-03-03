@@ -12,7 +12,7 @@
 
         <!-- 空状态卡片 -->
         <div class="empty-state-card card" v-else @click="goToPregnancySetup">
-          <span class="empty-icon">💝</span>
+          <Icon name="heart" :size="44" color="var(--primary)" />
           <div class="empty-info">
             <span class="empty-title">设置孕期信息</span>
             <span class="empty-subtitle">记录您的预产期，开始跟踪宝宝成长</span>
@@ -32,7 +32,7 @@
           <div class="activity-list">
             <div v-for="movement in movementsStore.recentMovements" :key="movement.id" class="activity-item">
               <div class="activity-icon">
-                {{ movement.sessionType === 'singleClick' ? '👆' : '⏱️' }}
+                <Icon :name="movement.sessionType === 'singleClick' ? 'pointer' : 'timer'" :size="16" color="white" />
               </div>
               <div class="activity-info">
                 <span class="activity-type">{{ movement.sessionType === 'singleClick' ? '单次记录' : '计时记录' }}</span>
@@ -58,6 +58,7 @@ import { getRelativeString, formatTime as formatTimeUtil, formatDuration as form
 import PregnancyInfoCard from '@/components/pregnancy-info-card.vue'
 import TodaySummaryCard from '@/components/today-summary-card.vue'
 import QuickActionView from '@/components/quick-action-view.vue'
+import Icon from '@/components/icon.vue'
 
 const router = useRouter()
 const pregnancyStore = usePregnancyStore()
@@ -108,10 +109,6 @@ const formatDuration = (seconds) => formatDurationUtil(seconds)
   gap: 20px;
   text-align: center;
   cursor: pointer;
-}
-
-.empty-icon {
-  font-size: 44px;
 }
 
 .empty-info {

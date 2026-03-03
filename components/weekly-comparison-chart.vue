@@ -30,7 +30,7 @@
     </div>
 
     <div class="empty-state" v-else>
-      <span class="empty-icon">📅</span>
+      <Icon name="calendar" :size="32" color="var(--text-tertiary)" />
       <span class="empty-text">暂无数据</span>
     </div>
   </div>
@@ -38,6 +38,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import Icon from '@/components/icon.vue'
 
 const props = defineProps({
   data: {
@@ -161,10 +162,6 @@ const getBarHeight = (value) => {
   align-items: center;
   justify-content: center;
   gap: 12px;
-}
-
-.empty-icon {
-  font-size: 32px;
 }
 
 .empty-text {

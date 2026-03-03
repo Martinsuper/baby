@@ -9,7 +9,7 @@
         <div class="list-item" v-if="pregnancyStore.hasProfile" @click="goToPregnancySetup">
           <div class="avatar">
             <img v-if="pregnancyStore.profile?.avatarPath" :src="pregnancyStore.profile.avatarPath" />
-            <span v-else>👤</span>
+            <Icon v-else name="user" :size="24" color="white" />
           </div>
           <div class="info">
             <span class="name">{{ pregnancyStore.profile?.babyName || '宝宝' }}</span>
@@ -30,7 +30,7 @@
       <div class="list">
         <div class="list-item" @click="goToReminderSetup">
           <div class="reminder-icon" :class="{ enabled: remindersStore.isEnabled }">
-            🔔
+            <Icon name="bell" :size="16" :color="remindersStore.isEnabled ? 'white' : 'var(--text-secondary)'" />
           </div>
           <div class="info">
             <span class="name">每日提醒</span>
@@ -67,6 +67,7 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePregnancyStore } from '@/store/pregnancy'
 import { useRemindersStore } from '@/store/reminders'
+import Icon from '@/components/icon.vue'
 
 const router = useRouter()
 const pregnancyStore = usePregnancyStore()

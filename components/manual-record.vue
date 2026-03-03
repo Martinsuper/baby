@@ -4,7 +4,7 @@
 
     <!-- 记录按钮 -->
     <view class="record-btn" :class="{ pressed: isPressed }" @click="recordMovement" @mousedown="isPressed = true" @mouseup="isPressed = false" @touchstart="isPressed = true" @touchend="isPressed = false">
-      <text class="btn-icon">👆</text>
+      <Icon name="pointer" :size="40" color="white" />
       <text class="btn-label">记录</text>
     </view>
 
@@ -18,6 +18,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useMovementsStore } from '@/store/movements'
+import Icon from '@/components/icon.vue'
 
 const emit = defineEmits(['recorded'])
 
@@ -75,10 +76,6 @@ const recordMovement = () => {
 .record-btn.pressed {
   transform: scale(0.95);
   box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
-}
-
-.record-btn .btn-icon {
-  font-size: 40px;
 }
 
 .record-btn .btn-label {

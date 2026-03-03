@@ -13,7 +13,7 @@
 
       <div class="last-section" v-if="lastMovement">
         <div class="last-time">
-          <span class="icon">🕐</span>
+          <Icon name="clock" :size="12" color="var(--primary)" />
           <span class="time">{{ formatTime(lastMovement.timestamp) }}</span>
         </div>
         <span class="last-label">最近记录</span>
@@ -28,6 +28,7 @@
 <script setup>
 import { computed } from 'vue'
 import { formatDate, formatTime as formatTimeUtil } from '@/utils/date'
+import Icon from '@/components/icon.vue'
 
 const props = defineProps({
   movements: {
@@ -112,10 +113,6 @@ const formatTime = (timestamp) => {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.icon {
-  font-size: 12px;
 }
 
 .time {

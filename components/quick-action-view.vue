@@ -4,7 +4,7 @@
     <div class="actions">
       <div v-for="(action, index) in actions" :key="index" class="action-item" @click="handleAction(action)">
         <div class="action-icon" :style="{ backgroundColor: action.color }">
-          {{ action.icon }}
+          <Icon :name="action.icon" :size="24" color="white" />
         </div>
         <span class="action-label">{{ action.label }}</span>
       </div>
@@ -14,24 +14,25 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import Icon from '@/components/icon.vue'
 
 const router = useRouter()
 
 const actions = [
   {
-    icon: '👆',
+    icon: 'pointer',
     label: '记录胎动',
     color: '#E91E63',
     page: '/record'
   },
   {
-    icon: '📖',
+    icon: 'book',
     label: '写日记',
     color: '#EC407A',
     page: '/diary/editor'
   },
   {
-    icon: '📊',
+    icon: 'chart',
     label: '查看统计',
     color: '#81C784',
     page: '/statistics'
@@ -79,7 +80,6 @@ const handleAction = (action) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
 }
 
 .action-label {
