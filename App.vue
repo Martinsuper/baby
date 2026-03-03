@@ -2,7 +2,6 @@
 import { onMounted } from 'vue'
 import { usePregnancyStore } from './store/pregnancy'
 import { useMovementsStore } from './store/movements'
-import { useDiaryStore } from './store/diary'
 import { useRemindersStore } from './store/reminders'
 import Icon from './components/icon.vue'
 
@@ -11,13 +10,11 @@ onMounted(() => {
   // 初始化数据
   const pregnancyStore = usePregnancyStore()
   const movementsStore = useMovementsStore()
-  const diaryStore = useDiaryStore()
   const remindersStore = useRemindersStore()
 
   // 从本地存储加载数据
   pregnancyStore.loadProfile()
   movementsStore.loadMovements()
-  diaryStore.loadEntries()
   remindersStore.loadSettings()
 })
 </script>
@@ -36,10 +33,6 @@ onMounted(() => {
       <router-link to="/statistics" class="tab-item" active-class="active">
         <Icon name="chart" :size="20" />
         <span class="label">统计</span>
-      </router-link>
-      <router-link to="/diary" class="tab-item" active-class="active">
-        <Icon name="book" :size="20" />
-        <span class="label">日记</span>
       </router-link>
       <router-link to="/settings" class="tab-item" active-class="active">
         <Icon name="user" :size="20" />

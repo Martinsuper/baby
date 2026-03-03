@@ -2,20 +2,9 @@
   <div class="page">
     <h2 class="page-title">记录胎动</h2>
 
-    <!-- 模式选择器 -->
-    <div class="mode-picker">
-      <div class="picker-item" :class="{ active: recordMode === 'singleClick' }" @click="recordMode = 'singleClick'">
-        单次点击
-      </div>
-      <div class="picker-item" :class="{ active: recordMode === 'timer' }" @click="recordMode = 'timer'">
-        计时模式
-      </div>
-    </div>
-
     <!-- 记录区域 -->
     <div class="record-area">
-      <single-click-mode v-if="recordMode === 'singleClick'" @recorded="onRecorded" />
-      <timer-mode v-else @recorded="onRecorded" />
+      <timer-mode @recorded="onRecorded" />
     </div>
 
     <!-- 今日统计 -->
@@ -49,14 +38,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useMovementsStore } from '@/store/movements'
 import { formatTimeWithSeconds } from '@/utils/date'
-import SingleClickMode from '@/components/single-click-mode.vue'
 import TimerMode from '@/components/timer-mode.vue'
 
 const movementsStore = useMovementsStore()
-const recordMode = ref('singleClick')
 
 // 今日记录按时间倒序排列
 const sortedTodayMovements = computed(() => {
@@ -92,31 +79,6 @@ const deleteMovement = (id) => {
   color: var(--text-primary);
   margin: 0 0 24px;
   text-align: center;
-}
-
-.mode-picker {
-  display: flex;
-  background-color: rgba(252, 228, 236, 0.5);
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 24px;
-}
-
-.picker-item {
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-size: 14px;
-  color: var(--text-secondary);
-  cursor: pointer;
-}
-
-.picker-item.active {
-  background-color: var(--primary);
-  color: white;
-  font-weight: 500;
 }
 
 .record-area {

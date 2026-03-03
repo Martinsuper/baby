@@ -4,7 +4,6 @@
 const STORAGE_KEYS = {
   PREGNANCY_PROFILE: 'baby_pregnancy_profile',
   FETAL_MOVEMENTS: 'baby_fetal_movements',
-  DIARY_ENTRIES: 'baby_diary_entries',
   REMINDER_SETTINGS: 'baby_reminder_settings'
 }
 
