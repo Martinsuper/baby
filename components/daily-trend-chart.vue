@@ -63,7 +63,7 @@ const formatDay = (dateStr) => {
 }
 
 .chart-container {
-  min-height: 200px;
+  height: 200px;
 }
 
 .simple-chart {
