@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { usePregnancyStore } from './store/pregnancy'
 import { useMovementsStore } from './store/movements'
 import { useRemindersStore } from './store/reminders'
+import { useAppModeStore } from './store/appMode'
 import Icon from './components/icon.vue'
 
 onMounted(() => {
@@ -11,11 +12,13 @@ onMounted(() => {
   const pregnancyStore = usePregnancyStore()
   const movementsStore = useMovementsStore()
   const remindersStore = useRemindersStore()
+  const appModeStore = useAppModeStore()
 
   // 从本地存储加载数据
   pregnancyStore.loadProfile()
   movementsStore.loadMovements()
   remindersStore.loadSettings()
+  appModeStore.loadMode()
 })
 </script>
 
