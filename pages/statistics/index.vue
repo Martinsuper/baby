@@ -12,47 +12,94 @@
       </div>
     </div>
 
-    <!-- 汇总卡片 -->
-    <div class="summary-cards">
-      <div class="summary-card">
-        <div class="summary-icon" style="background-color: var(--primary)">
-          <Icon name="pointer" :size="16" color="white" />
+    <!-- 喂奶模式统计 -->
+    <template v-if="appModeStore.isFeedingMode">
+      <!-- 汇总卡片 -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-icon" style="background-color: var(--primary)">
+            <Icon name="droplet" :size="16" color="white" />
+          </div>
+          <span class="summary-value">{{ feedingStats.totalCount }}</span>
+          <span class="summary-label">总次数</span>
         </div>
-        <span class="summary-value">{{ filteredMovements.length }}</span>
-        <span class="summary-label">总次数</span>
+
+        <div class="summary-card">
+          <div class="summary-icon" style="background-color: var(--accent)">
+            <Icon name="calendar" :size="16" color="white" />
+          </div>
+          <span class="summary-value">{{ feedingStore.todayTotalAmount }}</span>
+          <span class="summary-label">今日总量(ml)</span>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon" style="background-color: var(--success)">
+            <Icon name="trending" :size="16" color="white" />
+          </div>
+          <span class="summary-value">{{ feedingStats.dailyAverage }}</span>
+          <span class="summary-label">日均(ml)</span>
+        </div>
       </div>
 
-      <div class="summary-card">
-        <div class="summary-icon" style="background-color: var(--accent)">
-          <Icon name="calendar" :size="16" color="white" />
+      <!-- 每日喂奶趋势 -->
+      <div class="card trend-card">
+        <h3 class="card-title">每日奶量趋势</h3>
+        <div class="trend-chart">
+          <div class="chart-bar" v-for="day in feedingDailyData" :key="day.date">
+            <div class="bar-fill" :style="{ height: getBarHeight(day.amount, feedingMaxDaily) }"></div>
+            <span class="bar-label">{{ day.label }}</span>
+            <span class="bar-value">{{ day.amount }}</span>
+          </div>
         </div>
-        <span class="summary-value">{{ averagePerDay }}</span>
-        <span class="summary-label">日均</span>
+      </div>
+    </template>
+
+    <!-- 胎动模式统计 -->
+    <template v-else>
+      <!-- 汇总卡片 -->
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-icon" style="background-color: var(--primary)">
+            <Icon name="pointer" :size="16" color="white" />
+          </div>
+          <span class="summary-value">{{ filteredMovements.length }}</span>
+          <span class="summary-label">总次数</span>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon" style="background-color: var(--accent)">
+            <Icon name="calendar" :size="16" color="white" />
+          </div>
+          <span class="summary-value">{{ averagePerDay }}</span>
+          <span class="summary-label">日均</span>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon" style="background-color: var(--success)">
+            <Icon name="trending" :size="16" color="white" />
+          </div>
+          <span class="summary-value">{{ maxDailyCount }}</span>
+          <span class="summary-label">最高</span>
+        </div>
       </div>
 
-      <div class="summary-card">
-        <div class="summary-icon" style="background-color: var(--success)">
-          <Icon name="trending" :size="16" color="white" />
-        </div>
-        <span class="summary-value">{{ maxDailyCount }}</span>
-        <span class="summary-label">最高</span>
-      </div>
-    </div>
+      <!-- 每日趋势图 -->
+      <daily-trend-chart :data="dailyData" />
 
-    <!-- 每日趋势图 -->
-    <daily-trend-chart :data="dailyData" />
+      <!-- 时段分布图 -->
+      <time-distribution-chart :data="timeDistributionData" />
 
-    <!-- 时段分布图 -->
-    <time-distribution-chart :data="timeDistributionData" />
-
-    <!-- 周对比图 -->
-    <weekly-comparison-chart v-if="selectedPeriod === 'month'" :data="weeklyData" />
+      <!-- 周对比图 -->
+      <weekly-comparison-chart v-if="selectedPeriod === 'month'" :data="weeklyData" />
+    </template>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useMovementsStore } from '@/store/movements'
+import { useAppModeStore } from '@/store/appMode'
+import { useFeedingStore } from '@/store/feeding'
 import { getTimePeriod } from '@/utils/date'
 import DailyTrendChart from '@/components/daily-trend-chart.vue'
 import TimeDistributionChart from '@/components/time-distribution-chart.vue'
@@ -60,12 +107,17 @@ import WeeklyComparisonChart from '@/components/weekly-comparison-chart.vue'
 import Icon from '@/components/icon.vue'
 
 const movementsStore = useMovementsStore()
+const appModeStore = useAppModeStore()
+const feedingStore = useFeedingStore()
 const selectedPeriod = ref('week')
 
 onMounted(() => {
+  appModeStore.loadMode()
   movementsStore.loadMovements()
+  feedingStore.loadFeedings()
 })
 
+// ========== 胎动模式 ==========
 const filteredMovements = computed(() => {
   const now = new Date()
   const days = selectedPeriod.value === 'week' ? 7 : 30
@@ -166,6 +218,52 @@ const weeklyData = computed(() => {
 
   return result
 })
+
+// ========== 喂奶模式 ==========
+const feedingStats = computed(() => {
+  const stats = feedingStore.getStats(selectedPeriod.value === 'week' ? 7 : 30)
+  return {
+    totalCount: stats.totalCount,
+    dailyAverage: stats.avgPerDay > 0 ? stats.avgPerDay.toFixed(0) : '0'
+  }
+})
+
+const feedingDailyData = computed(() => {
+  const days = selectedPeriod.value === 'week' ? 7 : 30
+  const result = []
+  const now = new Date()
+
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000)
+    date.setHours(0, 0, 0, 0)
+    const nextDate = new Date(date.getTime() + 24 * 60 * 60 * 1000)
+
+    const dayFeedings = feedingStore.feedings.filter(f => {
+      const fDate = new Date(f.timestamp)
+      return fDate >= date && fDate < nextDate
+    })
+
+    const amount = dayFeedings.reduce((sum, f) => sum + f.amount, 0)
+
+    result.push({
+      date: date.toISOString(),
+      label: `${date.getMonth() + 1}/${date.getDate()}`,
+      amount
+    })
+  }
+
+  return result
+})
+
+const feedingMaxDaily = computed(() => {
+  return Math.max(...feedingDailyData.value.map(d => d.amount), 1)
+})
+
+const getBarHeight = (amount, max) => {
+  if (max === 0) return '0%'
+  const percent = (amount / max) * 100
+  return `${Math.max(percent, 0)}%`
+}
 </script>
 
 <style scoped>
@@ -246,5 +344,59 @@ const weeklyData = computed(() => {
 .summary-label {
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.trend-card {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.trend-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  padding-top: 20px;
+}
+
+.chart-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.bar-fill {
+  width: 100%;
+  max-width: 40px;
+  background-color: var(--primary);
+  border-radius: 4px 4px 0 0;
+  position: absolute;
+  bottom: 24px;
+  min-height: 4px;
+}
+
+.bar-label {
+  position: absolute;
+  bottom: 0;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.bar-value {
+  position: absolute;
+  bottom: 28px;
+  font-size: 10px;
+  color: var(--text-primary);
+  font-weight: 500;
 }
 </style>
