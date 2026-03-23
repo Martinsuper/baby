@@ -29,7 +29,8 @@ import {
   Moon,
   Clock,
   Pointer,
-  Droplet
+  Droplet,
+  Calculator
 } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -81,7 +82,8 @@ const iconMap = {
   moon: Moon,
   clock: Clock,
   pointer: Pointer,
-  droplet: Droplet
+  droplet: Droplet,
+  calculator: Calculator
 }
 </script>
 
