@@ -18,8 +18,9 @@
             <!-- 历史记录 -->
             <div v-if="history.length > 0" class="calculator-history">
               <button
-                v-for="item in history"
-                :key="item"
+                v-for="(item, index) in history"
+                :key="'history-' + index"
+                type="button"
                 class="history-item"
                 @click="selectHistory(item)"
               >
@@ -32,6 +33,7 @@
               <button
                 v-for="key in keypadLayout"
                 :key="key.label"
+                type="button"
                 class="key"
                 :class="key.class"
                 @click="handleKeyPress(key)"
