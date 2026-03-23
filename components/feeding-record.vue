@@ -15,34 +15,16 @@
         />
       </div>
 
-      <!-- 奶量输入 -->
+      <!-- 奶量输入 - 点击弹出计算器 -->
       <div class="field">
         <label class="field-label">奶量 (毫升)</label>
-        <div class="amount-input-wrapper">
-          <input
-            type="number"
-            v-model.number="amount"
-            min="1"
-            max="500"
-            placeholder="请输入奶量"
-            class="amount-input"
-          />
-          <span class="unit">ml</span>
+        <div class="amount-trigger" @click="showCalculator = true">
+          <span class="amount-value" :class="{ placeholder: !amount }">
+            {{ amount || '请输入奶量' }}
+          </span>
+          <span v-if="amount" class="unit">ml</span>
+          <Icon name="calculator" :size="20" class="trigger-icon" />
         </div>
-        <span v-if="error" class="error-text">{{ error }}</span>
-      </div>
-
-      <!-- 快捷选择 -->
-      <div class="quick-amounts">
-        <button
-          v-for="qty in [60, 90, 120, 150, 180]"
-          :key="qty"
-          class="quick-btn"
-          :class="{ active: amount === qty }"
-          @click="amount = qty"
-        >
-          {{ qty }}ml
-        </button>
       </div>
 
       <!-- 确认按钮 -->
@@ -50,17 +32,61 @@
         确认记录
       </button>
     </div>
+
+    <!-- 计算器组件 -->
+    <MilkCalculator
+      v-model="amount"
+      v-model:visible="showCalculator"
+      :history="amountHistory"
+      @confirm="handleCalculatorConfirm"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import MilkCalculator from '@/components/milk-calculator.vue'
+import Icon from '@/components/icon.vue'
 
 const emit = defineEmits(['recorded'])
 
 const selectedTime = ref(formatDateTimeLocal(new Date()))
 const amount = ref(null)
-const error = ref('')
+const showCalculator = ref(false)
+
+// 历史记录 - 从 localStorage 加载
+const amountHistory = ref([])
+
+// 初始化历史记录
+function loadHistory() {
+  try {
+    const saved = localStorage.getItem('milkAmountHistory')
+    if (saved) {
+      amountHistory.value = JSON.parse(saved)
+    }
+  } catch (e) {
+    console.error('Failed to load milk amount history:', e)
+  }
+}
+
+// 保存历史记录
+function saveHistory(value) {
+  if (!value || value < 1) return
+
+  // 移除重复值，添加到头部
+  const filtered = amountHistory.value.filter(v => v !== value)
+  const newHistory = [value, ...filtered].slice(0, 3)
+  amountHistory.value = newHistory
+
+  try {
+    localStorage.setItem('milkAmountHistory', JSON.stringify(newHistory))
+  } catch (e) {
+    console.error('Failed to save milk amount history:', e)
+  }
+}
+
+// 页面加载时读取历史记录
+loadHistory()
 
 // 最大时间：当前时间
 const maxTime = computed(() => formatDateTimeLocal(new Date()))
@@ -92,17 +118,18 @@ const isValid = computed(() => {
   return selected <= now && selected >= sevenDaysAgo
 })
 
-function handleConfirm() {
-  if (!isValid.value) {
-    if (!amount.value || amount.value < 1 || amount.value > 500) {
-      error.value = '请输入 1-500 之间的奶量'
-      return
-    }
-    error.value = '请选择有效的时间'
-    return
-  }
+// 计算器确认
+function handleCalculatorConfirm(value) {
+  showCalculator.value = false
+}
 
-  error.value = ''
+// 表单确认
+function handleConfirm() {
+  if (!isValid.value) return
+
+  // 保存历史记录
+  saveHistory(amount.value)
+
   emit('recorded', {
     amount: amount.value,
     timestamp: new Date(selectedTime.value).toISOString()
@@ -142,8 +169,7 @@ function handleConfirm() {
   margin-bottom: 8px;
 }
 
-.time-input,
-.amount-input {
+.time-input {
   width: 100%;
   padding: 12px;
   border: 1px solid rgba(233, 30, 99, 0.2);
@@ -154,58 +180,45 @@ function handleConfirm() {
   box-sizing: border-box;
 }
 
-.time-input:focus,
-.amount-input:focus {
+.time-input:focus {
   outline: none;
   border-color: var(--primary);
 }
 
-.amount-input-wrapper {
+/* 奶量触发器样式 */
+.amount-trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid rgba(233, 30, 99, 0.2);
+  border-radius: 10px;
+  background-color: var(--card);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.amount-input {
-  flex: 1;
+.amount-trigger:active {
+  background-color: var(--card-secondary);
+}
+
+.amount-value {
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.amount-value.placeholder {
+  color: #999;
 }
 
 .unit {
   font-size: 14px;
   color: var(--text-secondary);
+  margin-left: 4px;
 }
 
-.error-text {
-  font-size: 12px;
-  color: var(--error);
-  margin-top: 4px;
-  display: block;
-}
-
-.quick-amounts {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.quick-btn {
-  flex: 1;
-  min-width: 60px;
-  padding: 10px;
-  border: 1px solid rgba(233, 30, 99, 0.3);
-  border-radius: 8px;
-  background-color: var(--card);
-  color: var(--text-primary);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.quick-btn.active {
-  background-color: var(--primary);
-  color: white;
-  border-color: var(--primary);
+.trigger-icon {
+  color: var(--text-secondary);
 }
 
 .confirm-btn {
@@ -219,6 +232,7 @@ function handleConfirm() {
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s;
+  margin-top: 8px;
 }
 
 .confirm-btn:disabled {
