@@ -2,8 +2,44 @@
   <div class="page">
     <h2 class="page-title">我的</h2>
 
-    <!-- 孕期信息 -->
+    <!-- 模式切换 -->
     <div class="section">
+      <h3 class="section-header">模式切换</h3>
+      <div class="list">
+        <div class="list-item mode-item">
+          <div class="mode-info">
+            <span class="mode-label">当前模式</span>
+            <span class="mode-value">{{ appModeStore.isFeedingMode ? '喂奶模式' : '胎动模式' }}</span>
+          </div>
+          <div class="mode-switch">
+            <button class="mode-btn" :class="{ active: appModeStore.isMovementMode }" @click="appModeStore.setMode('movement')">胎动</button>
+            <button class="mode-btn" :class="{ active: appModeStore.isFeedingMode }" @click="appModeStore.setMode('feeding')">喂奶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 喂奶提醒设置（仅在喂奶模式下显示） -->
+    <div class="section" v-if="appModeStore.isFeedingMode">
+      <h3 class="section-header">喂奶提醒</h3>
+      <div class="list">
+        <div class="list-item">
+          <span class="label">启用提醒</span>
+          <div class="toggle-switch" :class="{ active: feedingReminderStore.isEnabled }" @click="feedingReminderStore.toggleEnabled">
+            <div class="toggle-thumb"></div>
+          </div>
+        </div>
+        <div class="list-item" v-if="feedingReminderStore.isEnabled">
+          <span class="label">提醒间隔</span>
+          <div class="interval-selector">
+            <button v-for="h in [1, 2, 3, 4, 5, 6]" :key="h" class="interval-btn" :class="{ active: feedingReminderStore.intervalHours === h }" @click="feedingReminderStore.setIntervalHours(h)">{{ h }}小时</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 孕期信息 -->
+    <div class="section" v-if="appModeStore.isMovementMode">
       <h3 class="section-header">孕期信息</h3>
       <div class="list">
         <div class="list-item" v-if="pregnancyStore.hasProfile" @click="goToPregnancySetup">
@@ -67,15 +103,21 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePregnancyStore } from '@/store/pregnancy'
 import { useRemindersStore } from '@/store/reminders'
+import { useAppModeStore } from '@/store/appMode'
+import { useFeedingReminderStore } from '@/store/feedingReminder'
 import Icon from '@/components/icon.vue'
 
 const router = useRouter()
 const pregnancyStore = usePregnancyStore()
 const remindersStore = useRemindersStore()
+const appModeStore = useAppModeStore()
+const feedingReminderStore = useFeedingReminderStore()
 
 onMounted(() => {
+  appModeStore.loadMode()
   pregnancyStore.loadProfile()
   remindersStore.loadSettings()
+  feedingReminderStore.loadSettings()
 })
 
 const goToPregnancySetup = () => {
@@ -222,5 +264,97 @@ const openPrivacy = () => {
 .value {
   font-size: 16px;
   color: var(--text-secondary);
+}
+
+.mode-item {
+  justify-content: space-between;
+}
+
+.mode-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mode-label {
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.mode-value {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.mode-switch {
+  display: flex;
+  background-color: rgba(252, 228, 236, 0.5);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.mode-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-btn.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+.toggle-switch {
+  width: 48px;
+  height: 28px;
+  border-radius: 14px;
+  background-color: #ccc;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggle-switch.active {
+  background-color: var(--primary);
+}
+
+.toggle-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.2s;
+}
+
+.toggle-switch.active .toggle-thumb {
+  transform: translateX(20px);
+}
+
+.interval-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.interval-btn {
+  padding: 6px 12px;
+  border: 1px solid rgba(233, 30, 99, 0.3);
+  border-radius: 6px;
+  background-color: var(--card);
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.interval-btn.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 </style>
