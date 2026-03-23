@@ -11,7 +11,7 @@
 
       <!-- 今日统计 -->
       <div class="today-badge">
-        <Icon name="milk" :size="16" color="var(--primary)" />
+        <Icon name="droplet" :size="16" color="var(--primary)" />
         <span class="badge-text">今日</span>
         <span class="badge-count">{{ feedingStore.todayCount }}</span>
         <span class="badge-unit">次</span>
@@ -116,7 +116,8 @@ const onRecorded = () => {
   // 记录后的回调
 }
 
-const onFeedingRecorded = () => {
+const onFeedingRecorded = (data) => {
+  feedingStore.addFeeding(data)
   feedingReminderStore.clearDismissedTime()
 }
 
