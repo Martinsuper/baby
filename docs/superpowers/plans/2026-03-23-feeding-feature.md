@@ -224,7 +224,7 @@ git commit -m "feat(store): 添加应用模式状态管理"
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { getFeedings, saveFeeding, deleteFeeding, clearFeedings } from '@/utils/db'
-import { isToday, startOfDay, formatTime } from '@/utils/date'
+import { isToday, startOfDay } from '@/utils/date'
 
 export const useFeedingStore = defineStore('feeding', () => {
   // 状态
@@ -456,6 +456,7 @@ git commit -m "feat(store): 添加喂奶提醒状态管理"
           type="datetime-local"
           v-model="selectedTime"
           :max="maxTime"
+          :min="minTime"
           class="time-input"
         />
       </div>
@@ -1001,12 +1002,12 @@ git commit -m "feat(components): 添加喂奶提醒弹窗组件"
 
 ---
 
-## Task 8: 修改设置页 — 添加模式切换
+## Task 8: 修改设置页 — 添加模式切换和喂奶提醒设置
 
 **Files:**
 - Modify: `pages/settings/index.vue`
 
-- [ ] **Step 1: 添加模式切换开关**
+- [ ] **Step 1: 添加模式切换开关和喂奶提醒设置**
 
 在 `<template>` 中，在"孕期信息"section 之前添加：
 
@@ -1039,17 +1040,47 @@ git commit -m "feat(components): 添加喂奶提醒弹窗组件"
     </div>
   </div>
 </div>
+
+<!-- 喂奶提醒设置（仅在喂奶模式下显示） -->
+<div class="section" v-if="appModeStore.isFeedingMode">
+  <h3 class="section-header">喂奶提醒</h3>
+  <div class="list">
+    <div class="list-item">
+      <span class="label">启用提醒</span>
+      <div class="toggle-switch" :class="{ active: feedingReminderStore.isEnabled }" @click="feedingReminderStore.toggleEnabled">
+        <div class="toggle-thumb"></div>
+      </div>
+    </div>
+    <div class="list-item" v-if="feedingReminderStore.isEnabled">
+      <span class="label">提醒间隔</span>
+      <div class="interval-selector">
+        <button
+          v-for="h in [1, 2, 3, 4, 5, 6]"
+          :key="h"
+          class="interval-btn"
+          :class="{ active: feedingReminderStore.intervalHours === h }"
+          @click="feedingReminderStore.setIntervalHours(h)"
+        >
+          {{ h }}小时
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 ```
 
 在 `<script setup>` 中添加：
 
 ```javascript
 import { useAppModeStore } from '@/store/appMode'
+import { useFeedingReminderStore } from '@/store/feedingReminder'
 
 const appModeStore = useAppModeStore()
+const feedingReminderStore = useFeedingReminderStore()
 
 onMounted(() => {
   appModeStore.loadMode()
+  feedingReminderStore.loadSettings()
   // ... 其他初始化
 })
 ```
@@ -1099,13 +1130,62 @@ onMounted(() => {
   background-color: var(--primary);
   color: white;
 }
+
+.toggle-switch {
+  width: 48px;
+  height: 28px;
+  border-radius: 14px;
+  background-color: #ccc;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggle-switch.active {
+  background-color: var(--primary);
+}
+
+.toggle-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.2s;
+}
+
+.toggle-switch.active .toggle-thumb {
+  transform: translateX(20px);
+}
+
+.interval-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.interval-btn {
+  padding: 6px 12px;
+  border: 1px solid rgba(233, 30, 99, 0.3);
+  border-radius: 6px;
+  background-color: var(--card);
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.interval-btn.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
 ```
 
 - [ ] **Step 2: 提交**
 
 ```bash
 git add pages/settings/index.vue
-git commit -m "feat(settings): 添加模式切换开关"
+git commit -m "feat(settings): 添加模式切换和喂奶提醒设置"
 ```
 
 ---
