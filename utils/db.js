@@ -4,7 +4,11 @@
 const STORAGE_KEYS = {
   PREGNANCY_PROFILE: 'baby_pregnancy_profile',
   FETAL_MOVEMENTS: 'baby_fetal_movements',
-  REMINDER_SETTINGS: 'baby_reminder_settings'
+  REMINDER_SETTINGS: 'baby_reminder_settings',
+  // 新增
+  FEEDING_RECORDS: 'baby_feeding_records',
+  FEEDING_REMINDER: 'baby_feeding_reminder',
+  APP_MODE: 'baby_app_mode'
 }
 
 /**
@@ -159,6 +163,68 @@ export function saveReminderSettings(settings) {
   return updatedSettings
 }
 
+// ============ 喂奶记录 ============
+
+export function getFeedings() {
+  return getData(STORAGE_KEYS.FEEDING_RECORDS) || []
+}
+
+export function saveFeeding(feeding) {
+  const feedings = getFeedings()
+  const newFeeding = {
+    ...feeding,
+    id: generateId(),
+    timestamp: feeding.timestamp || new Date().toISOString()
+  }
+  feedings.push(newFeeding)
+  setData(STORAGE_KEYS.FEEDING_RECORDS, feedings)
+  return newFeeding
+}
+
+export function deleteFeeding(id) {
+  const feedings = getFeedings()
+  const filtered = feedings.filter(f => f.id !== id)
+  setData(STORAGE_KEYS.FEEDING_RECORDS, filtered)
+}
+
+export function clearFeedings() {
+  setData(STORAGE_KEYS.FEEDING_RECORDS, [])
+}
+
+// ============ 喂奶提醒设置 ============
+
+export function getFeedingReminderSettings() {
+  const settings = getData(STORAGE_KEYS.FEEDING_REMINDER)
+  if (!settings) {
+    return {
+      id: generateId(),
+      isEnabled: true,
+      intervalHours: 3
+    }
+  }
+  return settings
+}
+
+export function saveFeedingReminderSettings(settings) {
+  const updatedSettings = {
+    ...settings,
+    lastModified: new Date().toISOString()
+  }
+  setData(STORAGE_KEYS.FEEDING_REMINDER, updatedSettings)
+  return updatedSettings
+}
+
+// ============ 应用模式 ============
+
+export function getAppMode() {
+  return getData(STORAGE_KEYS.APP_MODE) || 'movement'
+}
+
+export function saveAppMode(mode) {
+  setData(STORAGE_KEYS.APP_MODE, mode)
+  return mode
+}
+
 export default {
   generateId,
   getPregnancyProfile,
@@ -172,5 +238,14 @@ export default {
   saveDiaryEntry,
   deleteDiaryEntry,
   getReminderSettings,
-  saveReminderSettings
+  saveReminderSettings,
+  // 新增
+  getFeedings,
+  saveFeeding,
+  deleteFeeding,
+  clearFeedings,
+  getFeedingReminderSettings,
+  saveFeedingReminderSettings,
+  getAppMode,
+  saveAppMode
 }
