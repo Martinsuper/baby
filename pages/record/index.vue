@@ -1,52 +1,104 @@
 <template>
   <div class="page">
-    <h2 class="page-title">记录胎动</h2>
+    <!-- 胎动模式 -->
+    <template v-if="appModeStore.isFeedingMode">
+      <h2 class="page-title">记录喂奶</h2>
 
-    <!-- 记录区域 -->
-    <div class="record-area">
-      <manual-record @recorded="onRecorded" />
-    </div>
-
-    <!-- 今日统计 -->
-    <div class="today-badge">
-      <Icon name="pointer" :size="16" color="var(--primary)" />
-      <span class="badge-text">今日已记录</span>
-      <span class="badge-count">{{ movementsStore.todayCount }}</span>
-      <span class="badge-unit">次</span>
-    </div>
-
-    <!-- 今日记录列表 -->
-    <div class="today-records" v-if="movementsStore.todayCount > 0">
-      <div class="records-header">
-        <span class="records-title">今日记录</span>
+      <!-- 记录区域 -->
+      <div class="record-area">
+        <FeedingRecord @recorded="onFeedingRecorded" />
       </div>
-      <div class="records-list">
-        <div
-          class="record-item"
-          v-for="movement in sortedTodayMovements"
-          :key="movement.id"
-        >
-          <span class="record-time">{{ formatTimeWithSeconds(movement.timestamp) }}</span>
-          <button class="delete-btn" @click="deleteMovement(movement.id)">删除</button>
+
+      <!-- 今日统计 -->
+      <div class="today-badge">
+        <Icon name="milk" :size="16" color="var(--primary)" />
+        <span class="badge-text">今日</span>
+        <span class="badge-count">{{ feedingStore.todayCount }}</span>
+        <span class="badge-unit">次</span>
+        <span class="badge-divider"></span>
+        <span class="badge-count">{{ feedingStore.todayTotalAmount }}</span>
+        <span class="badge-unit">ml</span>
+      </div>
+
+      <!-- 今日记录列表 -->
+      <div class="today-records" v-if="feedingStore.todayCount > 0">
+        <div class="records-header">
+          <span class="records-title">今日记录</span>
+        </div>
+        <div class="records-list">
+          <div
+            class="record-item"
+            v-for="feeding in feedingStore.sortedTodayFeedings"
+            :key="feeding.id"
+          >
+            <span class="record-time">{{ formatTime(feeding.timestamp) }}</span>
+            <span class="record-amount">{{ feeding.amount }}ml</span>
+            <button class="delete-btn" @click="deleteFeeding(feeding.id)">删除</button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="empty-records" v-else>
-      <span class="empty-text">暂无记录</span>
-    </div>
+      <div class="empty-records" v-else>
+        <span class="empty-text">暂无记录</span>
+      </div>
+    </template>
+
+    <!-- 胎动模式 -->
+    <template v-else>
+      <h2 class="page-title">记录胎动</h2>
+
+      <!-- 记录区域 -->
+      <div class="record-area">
+        <manual-record @recorded="onRecorded" />
+      </div>
+
+      <!-- 今日统计 -->
+      <div class="today-badge">
+        <Icon name="pointer" :size="16" color="var(--primary)" />
+        <span class="badge-text">今日已记录</span>
+        <span class="badge-count">{{ movementsStore.todayCount }}</span>
+        <span class="badge-unit">次</span>
+      </div>
+
+      <!-- 今日记录列表 -->
+      <div class="today-records" v-if="movementsStore.todayCount > 0">
+        <div class="records-header">
+          <span class="records-title">今日记录</span>
+        </div>
+        <div class="records-list">
+          <div
+            class="record-item"
+            v-for="movement in sortedTodayMovements"
+            :key="movement.id"
+          >
+            <span class="record-time">{{ formatTimeWithSeconds(movement.timestamp) }}</span>
+            <button class="delete-btn" @click="deleteMovement(movement.id)">删除</button>
+          </div>
+        </div>
+      </div>
+      <div class="empty-records" v-else>
+        <span class="empty-text">暂无记录</span>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted } from 'vue'
+import { useAppModeStore } from '@/store/appMode'
 import { useMovementsStore } from '@/store/movements'
-import { formatTimeWithSeconds } from '@/utils/date'
+import { useFeedingStore } from '@/store/feeding'
+import { useFeedingReminderStore } from '@/store/feedingReminder'
+import { formatTimeWithSeconds, formatTime } from '@/utils/date'
 import ManualRecord from '@/components/manual-record.vue'
+import FeedingRecord from '@/components/feeding-record.vue'
 import Icon from '@/components/icon.vue'
 
+const appModeStore = useAppModeStore()
 const movementsStore = useMovementsStore()
+const feedingStore = useFeedingStore()
+const feedingReminderStore = useFeedingReminderStore()
 
-// 今日记录按时间倒序排列
+// 今日胎动记录按时间倒序排列
 const sortedTodayMovements = computed(() => {
   return [...movementsStore.todayMovements].sort((a, b) => {
     return new Date(b.timestamp) - new Date(a.timestamp)
@@ -54,15 +106,26 @@ const sortedTodayMovements = computed(() => {
 })
 
 onMounted(() => {
+  appModeStore.loadMode()
   movementsStore.loadMovements()
+  feedingStore.loadFeedings()
+  feedingReminderStore.loadSettings()
 })
 
 const onRecorded = () => {
   // 记录后的回调
 }
 
+const onFeedingRecorded = () => {
+  feedingReminderStore.clearDismissedTime()
+}
+
 const deleteMovement = (id) => {
   movementsStore.removeMovement(id)
+}
+
+const deleteFeeding = (id) => {
+  feedingStore.removeFeeding(id)
 }
 </script>
 
@@ -119,6 +182,13 @@ const deleteMovement = (id) => {
   color: var(--text-secondary);
 }
 
+.badge-divider {
+  width: 1px;
+  height: 16px;
+  background-color: rgba(233, 30, 99, 0.3);
+  margin: 0 4px;
+}
+
 /* 今日记录列表 */
 .today-records {
   margin-top: 16px;
@@ -171,6 +241,14 @@ const deleteMovement = (id) => {
   font-family: 'SF Pro Rounded', -apple-system, monospace;
   color: var(--primary);
   letter-spacing: 0.5px;
+}
+
+.record-amount {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-left: auto;
+  margin-right: 12px;
 }
 
 .delete-btn {
