@@ -140,7 +140,7 @@ onUnmounted(() => {
 })
 
 const checkReminder = () => {
-  if (appModeStore.isFeedingMode && feedingReminderStore.shouldRemind) {
+  if (appModeStore.isFeedingMode && feedingReminderStore.shouldRemind(feedingStore.lastFeeding?.timestamp)) {
     showReminderModal.value = true
   }
 }
