@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import MilkCalculator from '@/components/milk-calculator.vue'
 import Icon from '@/components/icon.vue'
 
@@ -53,6 +53,16 @@ const emit = defineEmits(['recorded'])
 const selectedTime = ref(formatDateTimeLocal(new Date()))
 const amount = ref(null)
 const showCalculator = ref(false)
+
+// 刷新时间为当前时间
+function refreshTime() {
+  selectedTime.value = formatDateTimeLocal(new Date())
+}
+
+// 每次组件挂载时刷新时间
+onMounted(() => {
+  refreshTime()
+})
 
 // 历史记录 - 从 localStorage 加载
 const amountHistory = ref([])
@@ -137,7 +147,7 @@ function handleConfirm() {
 
   // 重置
   amount.value = null
-  selectedTime.value = formatDateTimeLocal(new Date())
+  refreshTime()
 }
 </script>
 
