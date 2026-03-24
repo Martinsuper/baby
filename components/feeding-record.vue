@@ -12,6 +12,7 @@
           :max="maxTime"
           :min="minTime"
           class="time-input"
+          @change="handleTimeChange"
         />
       </div>
 
@@ -44,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import MilkCalculator from '@/components/milk-calculator.vue'
 import Icon from '@/components/icon.vue'
 
@@ -53,15 +54,33 @@ const emit = defineEmits(['recorded'])
 const selectedTime = ref(formatDateTimeLocal(new Date()))
 const amount = ref(null)
 const showCalculator = ref(false)
+const isTimeManuallySet = ref(false) // 用户是否手动设置过时间
+let timeRefreshInterval = null
 
 // 刷新时间为当前时间
 function refreshTime() {
-  selectedTime.value = formatDateTimeLocal(new Date())
+  if (!isTimeManuallySet.value) {
+    selectedTime.value = formatDateTimeLocal(new Date())
+  }
 }
 
-// 每次组件挂载时刷新时间
+// 用户手动修改时间
+function handleTimeChange() {
+  isTimeManuallySet.value = true
+}
+
+// 每次组件挂载时刷新时间，并启动定时器
 onMounted(() => {
   refreshTime()
+  // 每分钟刷新时间
+  timeRefreshInterval = setInterval(refreshTime, 60000)
+})
+
+// 组件卸载时清除定时器
+onUnmounted(() => {
+  if (timeRefreshInterval) {
+    clearInterval(timeRefreshInterval)
+  }
 })
 
 // 历史记录 - 从 localStorage 加载
@@ -147,6 +166,7 @@ function handleConfirm() {
 
   // 重置
   amount.value = null
+  isTimeManuallySet.value = false
   refreshTime()
 }
 </script>
